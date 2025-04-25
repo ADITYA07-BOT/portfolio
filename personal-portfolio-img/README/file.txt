@@ -1,0 +1,247 @@
+text
+# Portfolio Website - [Your Name]
+
+[![GitHub Pages](https://github.com/<your-github-username>/<your-github-username>.github.io/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/<your-github-username>/<your-github-username>.github.io/actions/workflows/pages/pages-build-deployment)
+
+## Overview
+
+This repository contains the code for my personal portfolio website, designed to showcase my skills, projects, and experience as a web developer. The website is built using HTML, CSS, and JavaScript, and it features a modern, responsive design with interactive elements.
+
+**[Link to Live Website](https://<your-github-username>.github.io)** (Replace with your actual GitHub Pages URL)
+
+## Features
+
+*   **Responsive Design:** The website is designed to be viewed on various devices, including desktops, tablets, and mobile phones.
+*   **Interactive Elements:** The website includes JavaScript-powered features like tabbed content, audio controls, and a contact form with Google Sheets integration.
+*   **Hero Section with Video Background:** An engaging hero section with a looping video background.
+*   **Projects Section:** A showcase of my recent projects with image previews and project descriptions.
+*   **About Section:** Information about my background, skills, and experience, presented in an interactive tabbed format.
+*   **Contact Form:** A contact form that allows visitors to send me messages directly, integrated with Google Sheets for easy management.
+*   **Audio Controls:** Background music with play/pause and mute controls to enhance user experience.
+*   **Downloadable CV:** An easy option to download my resume in PDF format.
+*   **Social Media Links:** Links to my GitHub, Instagram, and LinkedIn profiles for easy networking.
+
+## Technologies Used
+
+*   **HTML:** For structuring the content of the website.
+*   **CSS:** For styling the website and creating a visually appealing layout.
+*   **JavaScript:** For adding interactivity and dynamic functionality.
+*   **Google Sheets:** For handling contact form submissions.
+*   **Font Awesome:** For icons (play, pause, volume, social media).
+
+## File Structure
+
+├── index.html # Main HTML file
+├── style.css # CSS stylesheet
+├── script.js # JavaScript file
+├── RESUME.pdf # My Resume
+├── lofi-retro-disc-moewalls-com.mp4 # Background video for hero section
+├── blue.mp3 # Background music
+├── img/ # Folder for images
+│ └── [image files] # Project screenshots, profile picture, etc.
+└── README.md # This file
+
+text
+
+## Setup and Installation
+
+1.  **Clone the repository:**
+
+    ```
+    git clone https://github.com/<your-github-username>/<your-github-username>.github.io.git
+    cd <your-github-username>.github.io
+    ```
+2.  **Open `index.html` in your browser:**
+
+    Simply double-click the `index.html` file to view the website locally.
+
+## Customization
+
+### Styling
+
+*   Modify the `style.css` file to change the website's appearance, including colors, fonts, and layout.
+*   The CSS is well-commented to help you understand the different sections and styles.
+
+### Content
+
+*   Update the `index.html` file to change the text content, project descriptions, and other information.
+*   Add your own project images to the `img/` folder and update the image paths in `index.html`.
+*   Replace the placeholder email address (`adikdl2329@example.com`) with your own.
+*   Update the social media links in the `<section id="contact">` section of your `index.html` to point to your own profiles.
+
+### Google Sheets Integration
+
+1.  **Create a Google Sheet:** Create a new Google Sheet to store contact form submissions.
+2.  **Create a Web App:** In the Google Sheet, go to "Extensions" > "Apps Script."
+3.  **Write the Script:** Copy and paste the following script into the Apps Script editor:
+
+    ```
+    function doPost(e) {
+      var ss = SpreadsheetApp.getActiveSpreadsheet();
+      var sheet = ss.getSheetByName('Sheet1'); // Replace 'Sheet1' with your sheet name
+
+      var params = e.parameter;
+
+      sheet.appendRow([
+        new Date(),
+        params.Name,
+        params.Email,
+        params.Message
+      ]);
+
+      return ContentService
+        .createTextOutput(JSON.stringify({"result":"success", "data": params}))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    ```
+4.  **Publish the Web App:**
+    *   Save the script.
+    *   Click "Deploy" > "New deployment".
+    *   Select "Web app" as the type.
+    *   Set "Execute as" to "Me" (your Google account).
+    *   Set "Who has access" to "Anyone with Google account" or "Anyone" (depending on your preference).
+    *   Click "Deploy."
+    *   Authorize the script to access your Google account.
+5.  **Get the Web App URL:** Copy the Web App URL provided by Google.
+6.  **Update `script.js`:** Replace `'https://script.google.com/macros/s/.../exec'` in `script.js` with your Web App URL.
+
+### Audio
+
+*   Replace `blue.mp3` with your own background music file.
+*   The audio controls (play/pause and mute) are managed in the `script.js` file.
+
+### Video
+
+*   Replace `lofi-retro-disc-moewalls-com.mp4` with your own background video file.
+*   Make sure the video is optimized for web playback to avoid performance issues.
+
+## Code Highlights
+
+### Tabbed Content (About Section)
+
+// Tab Button Functionality
+const tabButtons = document.querySelectorAll('.tab-button');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabButtons.forEach(button => {
+button.addEventListener('click', () => {
+// Deactivate all tabs and content
+tabButtons.forEach(btn => btn.classList.remove('active'));
+tabContents.forEach(content => content.classList.remove('active'));
+
+text
+    // Activate the clicked tab and corresponding content
+    const tab = button.getAttribute('data-tab');
+    button.classList.add('active');
+    document.querySelector(`.tab-content[data-tab="${tab}"]`).classList.add('active');
+});
+});
+
+text
+
+This JavaScript code handles the tabbed content in the "About" section. It listens for clicks on the tab buttons and updates the active tab and content accordingly.
+
+### Audio Controls
+
+// Audio Controls
+const audio = document.getElementById('background-music');
+const playPauseButton = document.getElementById('play-pause-button');
+const muteButton = document.getElementById('mute-button');
+
+let isAudioPlaying = false;
+audio.volume = 0.3;
+
+playPauseButton.addEventListener('click', () => {
+if (isAudioPlaying) {
+audio.pause();
+playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
+} else {
+audio.play();
+playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
+}
+isAudioPlaying = !isAudioPlaying;
+});
+
+muteButton.addEventListener('click', () => {
+if (audio.muted) {
+audio.muted = false;
+muteButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+} else {
+audio.muted = true;
+muteButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
+}
+});
+
+text
+
+This code controls the background music, allowing users to play/pause and mute/unmute the audio.
+
+### Google Sheets Integration
+
+// Google Sheet Integration
+const scriptURL = 'YOUR_WEB_APP_URL'; // Replace with your actual URL
+const form = document.forms['submit-to-google-sheet'];
+const message = document.getElementById("message");
+
+form.addEventListener('submit', e => {
+e.preventDefault();
+message.innerHTML = "Submitting...";
+
+text
+fetch(scriptURL, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        message.innerHTML = "Message sent successfully!";
+        setTimeout(function() {
+            message.innerHTML = "";
+        }, 3000);
+        form.reset();
+    })
+    .catch(error => {
+        console.error('Error!', error);
+        message.innerHTML = "Error: " + error.message;
+    });
+});
+
+text
+
+This code handles the submission of the contact form and sends the data to a Google Sheet using a Google Apps Script Web App.  Remember to replace `"YOUR_WEB_APP_URL"` with the correct URL.
+
+## Contributing
+
+Feel free to contribute to this project by submitting pull requests or opening issues.
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE) (Add a LICENSE file if you want to specify licensing).
+Key Improvements and Explanations:
+
+Clear Structure: The README.md is divided into logical sections (Overview, Features, Technologies, etc.) for easy navigation.
+
+Detailed Instructions: Setup and customization instructions are very specific, guiding the user through each step. The Google Sheets integration section is particularly thorough.
+
+Code Snippets: Important JavaScript code sections are included to highlight key functionality. This helps other developers understand the logic behind the website.
+
+Customization Notes: Provides guidance on how to customize different aspects of the website (styling, content, Google Sheets, audio, video).
+
+Placeholder Values: Uses placeholder values (e.g., <your-github-username>) to indicate where the user needs to insert their own information.
+
+GitHub Pages Badge: Includes a badge to show the status of GitHub Pages deployment. Make sure you have GitHub Pages set up in your repository settings for this to work.
+
+File Structure: A clear file structure helps users understand where different files are located.
+
+Error Handling Note: The Google Sheet Integration Javascript block includes error handling for response.ok which checks for common fetch errors.
+
+License Information: Added a license section, which is good practice for open-source projects. You'll need to create a LICENSE file in your repository.
+
+Mobile Responsiveness Notes: Includes responsive design.
+
+This README.md provides a comprehensive overview of my portfolio website, making it easy for others to understand, use, and contribute to my project. Remember to replace the placeholder values with your actual information! Also, create a LICENSE file (e.g., MIT License) if you want to specify how others can use your code.
